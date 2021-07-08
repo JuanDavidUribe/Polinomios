@@ -4,10 +4,11 @@ import javax.swing.JOptionPane;
 
 import superPoli.PolinomioPadre;
 
-public class PolinomioForma2 extends PolinomioPadre{
+public class PolinomioForma2 extends PolinomioPadre {
 
+	private int hola;
 	private int nTerminos;
-	
+
 	public PolinomioForma2(char[] polinomio) {
 		this.poli = polinomio.clone();
 		if (this.poli.length == 1) {
@@ -27,7 +28,7 @@ public class PolinomioForma2 extends PolinomioPadre{
 		this.polinomioFinal = vec.clone();
 		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
 	}
-	
+
 	public void reconstruct() {
 		String s = "";
 		for (int i = 0; i < this.poli.length; i++) {
@@ -54,7 +55,7 @@ public class PolinomioForma2 extends PolinomioPadre{
 		short j = 0;
 		this.polynomial[j] = this.nTerminos;
 		j++;
-		for(int i = 1; i < this.nTerminos; i+= 2) {
+		for (int i = 1; i < this.nTerminos; i += 2) {
 			this.polynomial[j] = this.polinomioDefinitivo[i];
 			j++;
 			this.polynomial[j] = this.polinomioDefinitivo[(i - 1)];
@@ -69,16 +70,14 @@ public class PolinomioForma2 extends PolinomioPadre{
 			this.nTerminos = 1;
 			this.polynomial = new int[2];
 		} else {
-			for(int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
-				if(this.polinomioDefinitivo[i] != 0) {
-					this.nTerminos += 1;	
+			for (int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
+				if (this.polinomioDefinitivo[i] != 0) {
+					this.nTerminos += 1;
 					continue;
-				}
-				else if(this.polinomioDefinitivo[i] == 0 && this.polinomioDefinitivo[i - 1] !=0) {
+				} else if (this.polinomioDefinitivo[i] == 0 && this.polinomioDefinitivo[i - 1] != 0) {
 					this.nTerminos += 1;
 					break;
-				}
-				else {
+				} else {
 					break;
 				}
 			}
@@ -86,7 +85,6 @@ public class PolinomioForma2 extends PolinomioPadre{
 		}
 		this.polynomialForm2();
 	}
-
 
 	@Override
 	public void show() {
@@ -115,7 +113,7 @@ public class PolinomioForma2 extends PolinomioPadre{
 				}
 			}
 		}
-		JOptionPane.showMessageDialog(null,"\nPolinomio :      "+SP);
+		JOptionPane.showMessageDialog(null, "\nPolinomio :      " + SP);
 	}
 
 	@Override
