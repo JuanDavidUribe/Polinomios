@@ -6,7 +6,6 @@ import superPoli.PolinomioPadre;
 
 public class PolinomioForma2 extends PolinomioPadre {
 
-	private int hola;
 	private int nTerminos;
 
 	public PolinomioForma2(char[] polinomio) {
@@ -72,10 +71,10 @@ public class PolinomioForma2 extends PolinomioPadre {
 		} else {
 			for (int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
 				if (this.polinomioDefinitivo[i] != 0) {
-					this.nTerminos += 1;
+					this.nTerminos += 2;
 					continue;
 				} else if (this.polinomioDefinitivo[i] == 0 && this.polinomioDefinitivo[i - 1] != 0) {
-					this.nTerminos += 1;
+					this.nTerminos += 2;
 					break;
 				} else {
 					break;

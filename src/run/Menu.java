@@ -2,12 +2,13 @@ package run;
 
 import javax.swing.JOptionPane;
 
-import operations.CalculadoraForma1;
+import operations.*;
 
 public class Menu {
 
 	private static boolean ingresado;
-	private CalculadoraForma1 calcular;
+	private CalculadoraForma1 calcularF1;
+	private CalculadoraForma2 calcularF2;
 
 	public Menu() {
 		Menu.ingresado = false;
@@ -69,14 +70,14 @@ public class Menu {
 						break;
 					case 2:
 						if (Menu.isIngresado()) {
-							calcular.showPolynomials();
+							calcularF1.showPolynomials();
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
 						break;
 					case 3:
 						if (Menu.isIngresado()) {
-							calcular.rebuild();
+							calcularF1.rebuild();
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
@@ -84,14 +85,14 @@ public class Menu {
 
 					case 4:
 						if (Menu.isIngresado()) {
-							calcular.add();
+							calcularF1.add();
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
 						break;
 					case 5:
 						if (Menu.isIngresado()) {
-							calcular.multiply();
+							calcularF1.multiply();
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
@@ -125,7 +126,7 @@ public class Menu {
 		boolean salir = false;
 		do {
 			try {
-				this.calcular.cleanPolynomial(); // Eliminamos el antiguo polinomio
+				this.calcularF1.cleanPolynomial(); // Eliminamos el antiguo polinomio
 			} catch (Exception e) { // por si aun no hay polinomio aún
 			}
 			polinomio1 = JOptionPane.showInputDialog("Ingrese el polinomio 1").toUpperCase().trim();
@@ -146,14 +147,16 @@ public class Menu {
 
 				switch (desForm) {
 				case 1:
-					calcular = new CalculadoraForma1(polinomioC1, polinomioC2);
+					this.calcularF1 = new CalculadoraForma1(polinomioC1, polinomioC2);
+				case 2:
+					this.calcularF2 = new CalculadoraForma2(polinomioC1, polinomioC2);
 					break;
 				default:
 					System.out.println("Error");
 					break;
 				}
 
-				if (calcular.validatePolynomials()) {
+				if (calcularF1.validatePolynomials()) {
 					salir = true;
 					Menu.setIngresado(true);
 				} else {
