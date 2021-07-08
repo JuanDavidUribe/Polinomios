@@ -5,7 +5,6 @@ public abstract class PolinomioPadre {
 	protected int[] polynomial;
 	protected String[] polinomioFinal;
 	protected char[] poli;
-	protected int grado;
 	protected int nData = 0;
 	
 	public char[] getPoli() {
@@ -22,14 +21,6 @@ public abstract class PolinomioPadre {
 
 	public void setPolynomial(int[] polynomial) {
 		this.polynomial = polynomial;
-	}
-
-	public int getGrado() {
-		return grado;
-	}
-
-	public void setGrado(int grado) {
-		this.grado = grado;
 	}
 
 	public int getnData() {
@@ -175,13 +166,6 @@ public abstract class PolinomioPadre {
 		for (int k = 0; k < this.nData; k++) { // Modificamos el vector de String para mostrar con mas facilidad
 			this.polinomioFinal[k] = String.valueOf(this.polinomioDefinitivo[k]);
 		}
-		if (this.polinomioDefinitivo[1] == 0) {
-			this.grado = 0;
-			this.polynomial = new int[2];
-		} else {
-			this.grado = this.polinomioDefinitivo[1];
-			this.polynomial = new int[(this.grado + 2)];
-		}
 	}
 
 	public void simplify() {
@@ -237,4 +221,12 @@ public abstract class PolinomioPadre {
 			return false;
 		}
 	}
+	
+	public abstract void show();
+	
+	/**
+	 * @param n Es la posicion del coeficiente que le mandaremos
+	 * @return El valor del exponente
+	 */
+	public abstract int exponent(int n);
 }

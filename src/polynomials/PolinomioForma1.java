@@ -6,6 +6,8 @@ import superPoli.PolinomioPadre;
 
 public class PolinomioForma1 extends PolinomioPadre {
 
+	private int grado;
+	
 	public PolinomioForma1(char[] polinomio) {
 		this.poli = polinomio.clone();
 		if (this.poli.length == 1) {
@@ -25,9 +27,24 @@ public class PolinomioForma1 extends PolinomioPadre {
 		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
 	}
 
+	public int getGrado() {
+		return grado;
+	}
+
+	public void setGrado(int grado) {
+		this.grado = grado;
+	}
+
 	@Override
 	public void order() {
 		super.order();
+		if (this.polinomioDefinitivo[1] == 0) {
+			this.grado = 0;
+			this.polynomial = new int[2];
+		} else {
+			this.grado = this.polinomioDefinitivo[1];
+			this.polynomial = new int[(this.grado + 2)];
+		}
 		this.polynomialForm1();
 	}
 
@@ -80,8 +97,7 @@ public class PolinomioForma1 extends PolinomioPadre {
 		}
 	}
 
-
-
+	@Override
 	public void show() {
 		int expo = 0;
 		String SP = "";
@@ -111,10 +127,7 @@ public class PolinomioForma1 extends PolinomioPadre {
 		JOptionPane.showMessageDialog(null,"\nPolinomio :      "+SP);
 	}
 
-	/**
-	 * @param n Es la posicion del coeficiente que le mandaremos
-	 * @return El valor del exponente
-	 */
+	@Override
 	public int exponent(int n) {
 		int DU = (this.polynomial.length - 1);
 		if (this.grado == 0) {

@@ -6,6 +6,8 @@ import superPoli.PolinomioPadre;
 
 public class PolinomioForma2 extends PolinomioPadre{
 
+	private int nTerminos;
+	
 	public PolinomioForma2(char[] polinomio) {
 		this.poli = polinomio.clone();
 		if (this.poli.length == 1) {
@@ -17,6 +19,7 @@ public class PolinomioForma2 extends PolinomioPadre{
 			this.polinomioFinal[i] = "";
 		}
 		this.polinomioDefinitivo = new int[(this.polinomioFinal.length)];
+		this.nTerminos = 0;
 		this.build();
 	}
 
@@ -47,40 +50,45 @@ public class PolinomioForma2 extends PolinomioPadre{
 		JOptionPane.showMessageDialog(null, s);
 	}
 
-	public void polynomialForm1() {
-		int i = 1, j = 0, numSearched = this.grado;
-		boolean found = false;
-		this.polynomial[j] = this.grado;
+	public void polynomialForm2() {
+		short j = 0;
+		this.polynomial[j] = this.nTerminos;
 		j++;
-		try {
-			while (i < polinomioDefinitivo.length) {
-				if (this.polinomioDefinitivo[i] == numSearched) {
-					this.polynomial[j] = this.polinomioDefinitivo[(i - 1)];
-					found = true;
-				} else {
-					this.polynomial[j] = 0;
-				}
-				if (j == (this.grado + 1)) {
-					break;
-				}
-				j++;
-				numSearched--;
-				if (found) {
-					i += 2;
-					found = false;
-				}
-			}
-		} catch (Exception e) {
+		for(int i = 1; i < this.nTerminos; i+= 2) {
+			this.polynomial[j] = this.polinomioDefinitivo[i];
+			j++;
+			this.polynomial[j] = this.polinomioDefinitivo[(i - 1)];
+			j++;
 		}
 	}
 
 	@Override
 	public void order() {
 		super.order();
-		this.polynomialForm1();
+		if (this.polinomioDefinitivo[1] == 0) {
+			this.nTerminos = 1;
+			this.polynomial = new int[2];
+		} else {
+			for(int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
+				if(this.polinomioDefinitivo[i] != 0) {
+					this.nTerminos += 1;	
+					continue;
+				}
+				else if(this.polinomioDefinitivo[i] == 0 && this.polinomioDefinitivo[i - 1] !=0) {
+					this.nTerminos += 1;
+					break;
+				}
+				else {
+					break;
+				}
+			}
+			this.polynomial = new int[(this.nTerminos + 1)];
+		}
+		this.polynomialForm2();
 	}
 
 
+	@Override
 	public void show() {
 		int expo = 0;
 		String SP = "";
@@ -110,16 +118,8 @@ public class PolinomioForma2 extends PolinomioPadre{
 		JOptionPane.showMessageDialog(null,"\nPolinomio :      "+SP);
 	}
 
-	/**
-	 * @param n Es la posicion del coeficiente que le mandaremos
-	 * @return El valor del exponente
-	 */
+	@Override
 	public int exponent(int n) {
-		int DU = (this.polynomial.length - 1);
-		if (this.grado == 0) {
-			return 0;
-		} else {
-			return (DU - n);
-		}
+		return (Integer) null;
 	}
 }

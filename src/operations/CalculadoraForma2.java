@@ -2,11 +2,11 @@ package operations;
 
 import polynomials.PolinomioForma1;
 
-public class Calculadora {
+public class CalculadoraForma2 {
 	private PolinomioForma1 polinomio1;
 	private PolinomioForma1 polinomio2;
 
-	public Calculadora(char[] polinomioC1, char[] polinomioC2) {
+	public CalculadoraForma2(char[] polinomioC1, char[] polinomioC2) {
 		this.polinomio1 = new PolinomioForma1(polinomioC1);
 		this.polinomio2 = new PolinomioForma1(polinomioC2);
 	}
