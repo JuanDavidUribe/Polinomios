@@ -63,7 +63,7 @@ public class PolinomioForma3 extends PolinomioPadre {
 	}
 
 	@Override
-	public int exponent(int n) {
+	public int getExponent(int n) {
 		// Agregar
 		return (Integer) null;
 	}

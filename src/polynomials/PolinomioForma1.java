@@ -7,7 +7,7 @@ import superPoli.PolinomioPadre;
 public class PolinomioForma1 extends PolinomioPadre {
 
 	private int grado;
-	
+
 	public PolinomioForma1(char[] polinomio) {
 		this.poli = polinomio.clone();
 		if (this.poli.length == 1) {
@@ -108,7 +108,7 @@ public class PolinomioForma1 extends PolinomioPadre {
 						SP += "+";
 					}
 				}
-				expo = exponent(k);
+				expo = getExponent(k);
 				if (this.polynomial[k] != 1) {
 					if (this.polynomial[k] == -1) {
 						SP += "-";
@@ -120,15 +120,15 @@ public class PolinomioForma1 extends PolinomioPadre {
 					SP += "X";
 				}
 				if (expo > 1) {
-					SP += ("X^" + exponent(k));
+					SP += ("X^" + String.valueOf(expo));
 				}
 			}
 		}
-		JOptionPane.showMessageDialog(null,"\nPolinomio :      "+SP);
+		JOptionPane.showMessageDialog(null, "\nPolinomio :      " + SP);
 	}
 
 	@Override
-	public int exponent(int n) {
+	public int getExponent(int n) {
 		int DU = (this.polynomial.length - 1);
 		if (this.grado == 0) {
 			return 0;

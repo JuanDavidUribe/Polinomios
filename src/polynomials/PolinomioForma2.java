@@ -27,7 +27,17 @@ public class PolinomioForma2 extends PolinomioPadre {
 		this.polinomioFinal = vec.clone();
 		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
 	}
+	
+	
+	public int getnTerminos() {
+		return nTerminos;
+	}
 
+	public void setnTerminos(int nTerminos) {
+		this.nTerminos = nTerminos;
+	}
+
+	
 	public void reconstruct() {
 		String s = "";
 		for (int i = 0; i < this.poli.length; i++) {
@@ -52,7 +62,7 @@ public class PolinomioForma2 extends PolinomioPadre {
 
 	public void polynomialForm2() {
 		short j = 0;
-		this.polynomial[j] = this.nTerminos;
+		this.polynomial[j] = (this.nTerminos == 1) ? (1) : (this.nTerminos / 2);
 		j++;
 		for (int i = 1; i < this.nTerminos; i += 2) {
 			this.polynomial[j] = this.polinomioDefinitivo[i];
@@ -66,8 +76,8 @@ public class PolinomioForma2 extends PolinomioPadre {
 	public void order() {
 		super.order();
 		if (this.polinomioDefinitivo[1] == 0) {
-			this.nTerminos = 1;
-			this.polynomial = new int[2];
+			this.nTerminos = 2;
+			this.polynomial = new int[3];
 		} else {
 			for (int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
 				if (this.polinomioDefinitivo[i] != 0) {
@@ -88,35 +98,31 @@ public class PolinomioForma2 extends PolinomioPadre {
 	@Override
 	public void show() {
 		int expo = 0;
-		String SP = "";
-		for (int k = 1; k < this.polynomial.length; k++) {
-			if (this.polynomial[k] != 0) {
-				if (k != 1) {
-					if (this.polynomial[k] >= 0) {
-						SP += "+";
+		String message = "";
+		for (int i = 2; i <= this.polynomial.length; i += 2) {
+			if (this.polynomial[i] != 0) {
+				expo = getExponent(i);
+				if (i != 2) {
+					if (this.polynomial[i] > 0) {
+						message += "+";
 					}
 				}
-				expo = exponent(k);
-				if (this.polynomial[k] != 1) {
-					if (this.polynomial[k] == -1) {
-						SP += "-";
-					} else {
-						SP += String.valueOf(this.polynomial[k]);
-					}
+				if (this.polynomial[i] != 0) {
+					message += String.valueOf(this.polynomial[i]);
 				}
 				if (expo == 1) {
-					SP += "X";
+					message += "X";
 				}
 				if (expo > 1) {
-					SP += ("X^" + exponent(k));
+					message += "X^" + String.valueOf(expo);
 				}
 			}
 		}
-		JOptionPane.showMessageDialog(null, "\nPolinomio :      " + SP);
+		JOptionPane.showMessageDialog(null, message);
 	}
 
 	@Override
-	public int exponent(int n) {
-		return (Integer) null;
+	public int getExponent(int n) {
+		return this.polynomial[n - 1];
 	}
 }

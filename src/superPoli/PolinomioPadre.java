@@ -228,5 +228,5 @@ public abstract class PolinomioPadre {
 	 * @param n Es la posicion del coeficiente que le mandaremos
 	 * @return El valor del exponente
 	 */
-	public abstract int exponent(int n);
+	public abstract int getExponent(int n);
 }

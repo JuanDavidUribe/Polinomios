@@ -7,14 +7,15 @@ import operations.*;
 public class Menu {
 
 	private static boolean ingresado;
+	private static boolean modificar;
 	private CalculadoraForma1 calcularF1;
 	private CalculadoraForma2 calcularF2;
 
 	public Menu() {
 		Menu.ingresado = false;
+		Menu.modificar = false;
 	}
 
-	//
 	public static boolean isIngresado() {
 		return ingresado;
 	}
@@ -23,13 +24,40 @@ public class Menu {
 		Menu.ingresado = ingresado;
 	}
 
-	public void inicio() {
+	public static boolean isModificar() {
+		return modificar;
+	}
+
+	public static void setModificar(boolean modificar) {
+		Menu.modificar = modificar;
+	}
+
+	public CalculadoraForma1 getCalcularF1() {
+		return calcularF1;
+	}
+
+	public void setCalcularF1(CalculadoraForma1 calcularF1) {
+		this.calcularF1 = calcularF1;
+	}
+
+	public CalculadoraForma2 getCalcularF2() {
+		return calcularF2;
+	}
+
+	public void setCalcularF2(CalculadoraForma2 calcularF2) {
+		this.calcularF2 = calcularF2;
+	}
+
+	public void init() {
 		short des = 0, desForm = 0;
 		char desCambiar = 'N';
 		boolean salir = false, exit = false;
 
 		do {
 			try {
+				Menu.ingresado = false;
+				this.calcularF1 = null;
+				this.calcularF2 = null;
 				desForm = Short.parseShort(JOptionPane.showInputDialog("\tMenu\n\n" + "[1] FORMA 1.\n"
 						+ "[2] FORMA 2.\n" + "[3] FORMA 3.\n" + "[4] Salir.\n\n" + "Ingrese una opcion: "));
 			} catch (Exception e) {
@@ -53,31 +81,48 @@ public class Menu {
 					switch (des) {
 					case 1:
 						if (!Menu.isIngresado()) {
-							this.ingresarPolinomios(desForm);
+							this.enterPolynomials(desForm);
 							Menu.setIngresado(true);
 						} else {
-							try {
-								desCambiar = JOptionPane
-										.showInputDialog("Seguro que quiere cambiar los polinomios [S/N] ")
-										.toUpperCase().trim().charAt(0);
-							} catch (Exception e) {
-								JOptionPane.showMessageDialog(null, "Respuesta invalida, se tomara como [NO]");
-							}
+							desCambiar = JOptionPane
+									.showInputDialog("Usted ya ah ingresado los polinomios, ¿Desea cambiarlos? [S/N]")
+									.toUpperCase().trim().charAt(0);
 							if (desCambiar == 'S') {
-								this.ingresarPolinomios(desForm);
+								Menu.modificar = true;
+								this.enterPolynomials(desForm);
 							}
 						}
 						break;
 					case 2:
 						if (Menu.isIngresado()) {
-							calcularF1.showPolynomials();
+							switch (desForm) {
+							case 1:
+								calcularF1.showPolynomials();
+								break;
+							case 2:
+								calcularF2.showPolynomials();
+								break;
+							default:
+								System.out.println("Error");
+								break;
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
 						break;
 					case 3:
 						if (Menu.isIngresado()) {
-							calcularF1.rebuild();
+							switch (desForm) {
+							case 1:
+								calcularF1.rebuild();
+								break;
+							case 2:
+								calcularF2.rebuild();
+								break;
+							default:
+								System.out.println("Error");
+								break;
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
@@ -85,14 +130,34 @@ public class Menu {
 
 					case 4:
 						if (Menu.isIngresado()) {
-							calcularF1.add();
+							switch (desForm) {
+							case 1:
+								calcularF1.add();
+								break;
+							case 2:
+								calcularF2.add();
+								break;
+							default:
+								System.out.println("Error");
+								break;
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
 						break;
 					case 5:
 						if (Menu.isIngresado()) {
-							calcularF1.multiply();
+							switch (desForm) {
+							case 1:
+								calcularF1.multiply();
+								break;
+							case 2:
+								calcularF2.multiply();
+								break;
+							default:
+								System.out.println("Error");
+								break;
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
 						}
@@ -105,10 +170,14 @@ public class Menu {
 						break;
 					}
 				} while (!salir);
+				desForm = 0;
 				salir = false;
+				Menu.ingresado = false;
+				Menu.modificar = false;
 				break;
-			case 4: exit = true;
-			break;
+			case 4:
+				exit = true;
+				break;
 			default:
 				JOptionPane.showMessageDialog(null, "Ingrese una opcion valida: ");
 				break;
@@ -120,15 +189,31 @@ public class Menu {
 	/**
 	 * @param desForm : Es la forma de manipular el polinomio que eligio el usuario
 	 */
-	public void ingresarPolinomios(short desForm) {
+	public void enterPolynomials(short desForm) {
 		String polinomio1;
 		String polinomio2;
 		boolean salir = false;
-		do {
+		if (Menu.modificar == true) {
 			try {
-				this.calcularF1.cleanPolynomial(); // Eliminamos el antiguo polinomio
-			} catch (Exception e) { // por si aun no hay polinomio aún
+				switch (desForm) {
+				case 1:
+					this.calcularF1.cleanPolynomial();
+					break;
+				case 2:
+					this.calcularF2.cleanPolynomial();
+					break;
+				default:
+					JOptionPane.showMessageDialog(null, "No ah ingresado una forma valida");
+					break;
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null,
+						"No se han podido hacer las modificaciones, concerva los mismos polinomios");
+				Menu.modificar = false;
+				return;
 			}
+		}
+		do {
 			polinomio1 = JOptionPane.showInputDialog("Ingrese el polinomio 1").toUpperCase().trim();
 			polinomio2 = JOptionPane.showInputDialog("Ingrese el polinomio 2").toUpperCase().trim();
 			if (polinomio1.equals("")) {
@@ -148,20 +233,27 @@ public class Menu {
 				switch (desForm) {
 				case 1:
 					this.calcularF1 = new CalculadoraForma1(polinomioC1, polinomioC2);
+					if (calcularF1.validatePolynomials()) {
+						salir = true;
+						Menu.setIngresado(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Uno de los polinomios no es valido, ingreselos de nuevo");
+					}
+					break;
 				case 2:
 					this.calcularF2 = new CalculadoraForma2(polinomioC1, polinomioC2);
+					if (calcularF2.validatePolynomials()) {
+						salir = true;
+						Menu.setIngresado(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Uno de los polinomios no es valido, ingreselos de nuevo");
+					}
 					break;
 				default:
 					System.out.println("Error");
 					break;
 				}
 
-				if (calcularF1.validatePolynomials()) {
-					salir = true;
-					Menu.setIngresado(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "Uno de los polinomios no es valido, ingreselos de nuevo");
-				}
 			}
 		} while (!salir);
 		JOptionPane.showMessageDialog(null,
