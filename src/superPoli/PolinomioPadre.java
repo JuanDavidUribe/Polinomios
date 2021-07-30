@@ -119,6 +119,14 @@ public abstract class PolinomioPadre {
 		}
 	}
 	
+	/**
+	 * @param position Es la posicion en donde se encuentra el dato a encontrar
+	 * @return El dato que se necesita 
+	 */
+	public int getData(int position) {
+		return this.polynomial[position];
+	}
+	
 	public void order() {
 		int maxExpo = 0, auxExpo = 0, maxCoe = 0, auxCoe = 0, coeNoZero = 0, zero = 0;
 		boolean finish = true, firstZero = false; // Soluciona el error de cambio de posiciones
@@ -178,14 +186,18 @@ public abstract class PolinomioPadre {
 		for (int i = 1; i <= this.nData; i += 2) {
 			posEliminar = new int[nData];
 			for (int j = (i + 2); j <= this.nData; j += 2) {
-				if (this.polinomioDefinitivo[j] == this.polinomioDefinitivo[i]) {
-					if (n == 0) {
-						s += this.polinomioDefinitivo[i - 1];
+				try {
+					if (this.polinomioDefinitivo[j] == this.polinomioDefinitivo[i]) {
+						if (n == 0) {
+							s += this.polinomioDefinitivo[i - 1];
+						}
+						s += this.polinomioDefinitivo[j - 1];
+						posEliminar[n] = j;
+						n++;
+						cambiar = true; 
 					}
-					s += this.polinomioDefinitivo[j - 1];
-					posEliminar[n] = j;
-					n++;
-					cambiar = true;
+				} catch (Exception e) {
+					continue;
 				}
 
 			}

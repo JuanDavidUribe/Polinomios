@@ -1,70 +1,122 @@
 package polynomials;
 
-import superPoli.PolinomioPadre;
+import javax.swing.JOptionPane;
 
-public class PolinomioForma3 extends PolinomioPadre {
+public class PolinomioForma3 {
+	private Nodo cab;
 
-	private int nTerminos;
-
-	public PolinomioForma3(char[] polinomio) {
-		this.poli = polinomio.clone();
-		if (this.poli.length == 1) {
-			this.polinomioFinal = new String[2]; // Si se ingresa un 5, quedará [5][0]
-		} else {
-			this.polinomioFinal = new String[this.poli.length];
-		}
-		for (int i = 0; i < polinomioFinal.length; i++) {
-			this.polinomioFinal[i] = "";
-		}
-		this.polinomioDefinitivo = new int[(this.polinomioFinal.length)];
-		this.nTerminos = 0;
-		this.build();
+	public PolinomioForma3() {
+		cab = null;
 	}
 
-	public PolinomioForma3(String[] vec) {
-		this.polinomioFinal = vec.clone();
-		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
+	public Nodo getCab() {
+		return this.cab;
 	}
 
-	public void reconstruct() {
-		//Agregar contenido
-	}
-
-	public void polynomialForm3() {
-		//Agregar contenido
-	}
-
-	@Override
-	public void order() {
-		super.order();
-		if (this.polinomioDefinitivo[1] == 0) {
-			this.nTerminos = 1;
-			this.polynomial = new int[2];
-		} else {
-			for (int i = 1; i < this.polinomioDefinitivo.length; i += 2) {
-				if (this.polinomioDefinitivo[i] != 0) {
-					this.nTerminos += 2;
-					continue;
-				} else if (this.polinomioDefinitivo[i] == 0 && this.polinomioDefinitivo[i - 1] != 0) {
-					this.nTerminos += 2;
+	public void ingresarPolinomio(String cadena) {			
+		int coef = 0, exp = 0, i=0;
+		cadena = cadena.toUpperCase();
+		char[] vec = cadena.toCharArray();
+		do {
+			while ((vec[i] != '+' && vec[i] != '-') && (i != vec.length-1)) {
+				switch (vec[i]) {
+				case 'X':
+					try {
+						if (vec[i - 1] == '+' || vec[i - 1] == '-') {
+							if (vec [i-1] == '-') {
+								coef = -1;
+							}
+							coef = 1;
+						} else {
+							coef = Character.getNumericValue(vec[i - 1]);
+							if (vec [i-2] == '-') {
+								coef = coef * -1;
+							}
+						}
+						
+					} catch (Exception e) {}
+					try {
+						if (Character.isDigit(vec[i - 2])) {
+							String n3 = String.valueOf(vec[i - 2]) + String.valueOf(vec[i - 1]);
+							coef = Integer.parseInt(n3);
+							try {
+								if (vec [i-3] == '-') {
+									coef = coef *-1;
+								}
+							} catch (Exception e) {}
+						}
+					} catch (Exception e) {}
 					break;
-				} else {
+				case '^':
+					exp = Character.getNumericValue(vec [i+1]);
+					break;
+				default:
 					break;
 				}
+				i++;
 			}
-			this.polynomial = new int[(this.nTerminos)];
+			if (!(vec[i] != '+' && vec[i] != '-')) {
+				i++;
+			}
+			if (i != 0) {
+				llenarPol(coef, exp);
+				coef = 0;
+				exp = 0;
+			}
+		} while (i < vec.length-1);
+	}
+	
+	public void llenarPol (int coef, int exp) {
+		Nodo x, p, ant = null;
+		if (cab == null) {
+			cab = new Nodo (coef, exp);
 		}
-		this.polynomialForm3();
+		else {
+			p = cab;
+			while (p.getLiga() != null && p.getExp() > exp) {
+				ant = p;
+				p = p.getLiga();
+			}
+			if (p.getExp() == exp) {
+				p.setCoef(p.getCoef() + coef);
+			}
+			else {
+				if (exp > p.getExp()) {
+					x = new Nodo(coef, exp);
+					x.setLiga(p);				
+					if (p == cab) {
+						cab = x;
+					} else {
+						ant.setLiga(x);
+					}
+				}
+				else {
+					x = new Nodo (coef,exp);
+					x.setLiga(p.getLiga());
+					p.setLiga(x);
+				}
+			}	
+		}
+		
 	}
 
-	@Override
-	public void show() {
-		// Agegar
+
+	public void mostrar() {
+		String s = "";
+		Nodo recorrer = cab;
+		if (recorrer == null) {
+			JOptionPane.showMessageDialog(null, "el polinomio esta vacio");
+		} else {
+			while (recorrer != null) {
+				if (recorrer.getCoef() > 0 && recorrer != cab) {
+					s += "+" + recorrer.getCoef() + "X^" + recorrer.getExp();
+				} else {
+					s += recorrer.getCoef() + "X^" + recorrer.getExp();
+				}
+				recorrer = recorrer.getLiga();
+			}
+			JOptionPane.showMessageDialog(null, s);
+		}
 	}
 
-	@Override
-	public int getExponent(int n) {
-		// Agregar
-		return (Integer) null;
-	}
 }

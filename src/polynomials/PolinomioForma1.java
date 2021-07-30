@@ -6,7 +6,7 @@ import superPoli.PolinomioPadre;
 
 public class PolinomioForma1 extends PolinomioPadre {
 
-	private int grado;
+	private int grade;
 
 	public PolinomioForma1(char[] polinomio) {
 		this.poli = polinomio.clone();
@@ -27,23 +27,23 @@ public class PolinomioForma1 extends PolinomioPadre {
 		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
 	}
 
-	public int getGrado() {
-		return grado;
+	public int getGrade() {
+		return grade;
 	}
 
-	public void setGrado(int grado) {
-		this.grado = grado;
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 
 	@Override
 	public void order() {
 		super.order();
 		if (this.polinomioDefinitivo[1] == 0) {
-			this.grado = 0;
+			this.grade = 0;
 			this.polynomial = new int[2];
 		} else {
-			this.grado = this.polinomioDefinitivo[1];
-			this.polynomial = new int[(this.grado + 2)];
+			this.grade = this.polinomioDefinitivo[1];
+			this.polynomial = new int[(this.grade + 2)];
 		}
 		this.polynomialForm1();
 	}
@@ -71,9 +71,9 @@ public class PolinomioForma1 extends PolinomioPadre {
 	}
 
 	public void polynomialForm1() {
-		int i = 1, j = 0, numSearched = this.grado;
+		int i = 1, j = 0, numSearched = this.grade;
 		boolean found = false;
-		this.polynomial[j] = this.grado;
+		this.polynomial[j] = this.grade;
 		j++;
 		try {
 			while (i < polinomioDefinitivo.length) {
@@ -83,7 +83,7 @@ public class PolinomioForma1 extends PolinomioPadre {
 				} else {
 					this.polynomial[j] = 0;
 				}
-				if (j == (this.grado + 1)) {
+				if (j == (this.grade + 1)) {
 					break;
 				}
 				j++;
@@ -123,14 +123,14 @@ public class PolinomioForma1 extends PolinomioPadre {
 					SP += ("X^" + String.valueOf(expo));
 				}
 			}
-		}
+		} 
 		JOptionPane.showMessageDialog(null, "\nPolinomio :      " + SP);
 	}
 
 	@Override
 	public int getExponent(int n) {
 		int DU = (this.polynomial.length - 1);
-		if (this.grado == 0) {
+		if (this.grade == 0) {
 			return 0;
 		} else {
 			return (DU - n);

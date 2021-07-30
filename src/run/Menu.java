@@ -3,6 +3,8 @@ package run;
 import javax.swing.JOptionPane;
 
 import operations.*;
+import polynomials.PolinomioForma1;
+import polynomials.PolinomioForma3;
 
 public class Menu {
 
@@ -10,10 +12,16 @@ public class Menu {
 	private static boolean modificar;
 	private CalculadoraForma1 calcularF1;
 	private CalculadoraForma2 calcularF2;
+	private CalculadoraForma3 calcularF3;
+	private PolinomioForma3 poli1;
+	private PolinomioForma3 poli2;
+	private PolinomioForma3 resF3;
 
 	public Menu() {
 		Menu.ingresado = false;
 		Menu.modificar = false;
+		poli1 = new PolinomioForma3();
+		poli2 = new PolinomioForma3();
 	}
 
 	public static boolean isIngresado() {
@@ -58,6 +66,9 @@ public class Menu {
 				Menu.ingresado = false;
 				this.calcularF1 = null;
 				this.calcularF2 = null;
+				this.calcularF3 = null;
+				this.poli1 = null; 
+				this.poli2 = null;
 				desForm = Short.parseShort(JOptionPane.showInputDialog("\tMenu\n\n" + "[1] FORMA 1.\n"
 						+ "[2] FORMA 2.\n" + "[3] FORMA 3.\n" + "[4] Salir.\n\n" + "Ingrese una opcion: "));
 			} catch (Exception e) {
@@ -70,9 +81,9 @@ public class Menu {
 			case 3:
 				do {
 					try {
-						des = Short.parseShort(JOptionPane.showInputDialog("\tMENU\n\n" + "[1] Ingresar polinomios. \n"
-								+ "[2] Mostrar. \n" + "[3] Reconstruir. \n" + "[4] Sumar. \n" + "[5] Multiplicar. \n"
-								+ "[6] Salir. \n\n" + "Ingrese una opcion: "));
+						des = Short.parseShort(JOptionPane.showInputDialog("\tMENU\n\n" + "[1] Ingresar polinomios.\n"
+								+ "[2] Mostrar.\n" + "[3] Reconstruir.\n" + "[4] Sumar.\n" + "[5] Multiplicar.\n"
+								+ "[6] Dividir.\n" + "[7] Salir.\n\n" + "Ingrese una opcion: "));
 					} catch (Exception e) {
 						des = 0;
 						JOptionPane.showMessageDialog(null, "Ingrese una opcion valida");
@@ -102,6 +113,9 @@ public class Menu {
 							case 2:
 								calcularF2.showPolynomials();
 								break;
+							case 3:
+								calcularF3.showPolynomials();
+								break;
 							default:
 								System.out.println("Error");
 								break;
@@ -118,6 +132,9 @@ public class Menu {
 								break;
 							case 2:
 								calcularF2.rebuild();
+								break;
+							case 3:
+								calcularF3.rebuild();
 								break;
 							default:
 								System.out.println("Error");
@@ -137,6 +154,10 @@ public class Menu {
 							case 2:
 								calcularF2.add();
 								break;
+							case 3:
+								resF3 = this.calcularF3.add(this.poli1, this.poli2);
+								resF3.mostrar();
+								break;
 							default:
 								System.out.println("Error");
 								break;
@@ -154,6 +175,10 @@ public class Menu {
 							case 2:
 								calcularF2.multiply();
 								break;
+							case 3:
+								resF3 = this.calcularF3.multiply(this.poli1, this.poli2);
+								resF3.mostrar();
+								break;
 							default:
 								System.out.println("Error");
 								break;
@@ -163,6 +188,23 @@ public class Menu {
 						}
 						break;
 					case 6:
+						if (Menu.isIngresado()) {
+							switch (desForm) {
+							case 1:
+								calcularF1.divide();
+								break;
+							case 2:
+								calcularF2.multiply();
+								break;
+							default:
+								System.out.println("Error");
+								break;
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Primero debe ingresar los polinomios");
+						}
+						break;
+					case 7:
 						salir = true;
 						break;
 					default:
@@ -248,6 +290,12 @@ public class Menu {
 					} else {
 						JOptionPane.showMessageDialog(null, "Uno de los polinomios no es valido, ingreselos de nuevo");
 					}
+					break;
+				case 3:
+					this.calcularF3 = new CalculadoraForma3();
+					poli1.ingresarPolinomio(polinomio1);
+					poli2.ingresarPolinomio(polinomio2);
+					salir = true;
 					break;
 				default:
 					System.out.println("Error");
