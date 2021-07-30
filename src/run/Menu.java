@@ -67,8 +67,6 @@ public class Menu {
 				this.calcularF1 = null;
 				this.calcularF2 = null;
 				this.calcularF3 = null;
-				this.poli1 = null; 
-				this.poli2 = null;
 				desForm = Short.parseShort(JOptionPane.showInputDialog("\tMenu\n\n" + "[1] FORMA 1.\n"
 						+ "[2] FORMA 2.\n" + "[3] FORMA 3.\n" + "[4] Salir.\n\n" + "Ingrese una opcion: "));
 			} catch (Exception e) {
