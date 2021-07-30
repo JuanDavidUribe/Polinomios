@@ -64,6 +64,7 @@ public class PolinomioForma3 {
 					exp = Character.getNumericValue(vec [i+1]);
 					break;
 				default:
+					
 					break;
 				}
 				if (i == vec.length-1) {
@@ -126,10 +127,61 @@ public class PolinomioForma3 {
 			JOptionPane.showMessageDialog(null, "el polinomio esta vacio");
 		} else {
 			while (recorrer != null) {
-				if (recorrer.getCoef() > 0 && recorrer != cab) {
-					s += "+" + recorrer.getCoef() + "X^" + recorrer.getExp();
-				} else {
-					s += recorrer.getCoef() + "X^" + recorrer.getExp();
+				if (recorrer.getCoef() > 0) {
+					if (recorrer.getCoef() == 1) {
+						s += "X";
+						if (recorrer.getExp() == 1) {
+						}
+						else {
+							s += "^" + recorrer.getExp();
+						}
+					}
+					else {
+						if (recorrer == cab) {
+							s += recorrer.getCoef() + "X";
+							if (recorrer.getExp() == 1) {
+							}
+							else {
+								s += "^" + recorrer.getExp();
+							}
+						}
+						else {
+							s += "+" + recorrer.getCoef() + "X";
+							if (recorrer.getExp() == 1) {
+							}
+							else {
+								s += "^" + recorrer.getExp();
+							}
+						}
+					}
+				}
+				if (recorrer.getCoef() < 0) {
+					if (recorrer.getCoef() == -1) {
+						s += "-X";
+						if (recorrer.getExp() == 1) {
+						}
+						else {
+							s += "^" + recorrer.getExp();
+						}
+					}
+					else {
+						if (recorrer == cab) {
+							s += recorrer.getCoef() + "X";
+							if (recorrer.getExp() == 1) {
+							}
+							else {
+								s += "^" + recorrer.getExp();
+							}
+						}
+						else {
+							s += "-" + recorrer.getCoef() + "X";
+							if (recorrer.getExp() == 1) {
+							}
+							else {
+								s += "^" + recorrer.getExp();
+							}
+						}
+					}
 				}
 				recorrer = recorrer.getLiga();
 			}
@@ -138,3 +190,4 @@ public class PolinomioForma3 {
 	}
 
 }
+

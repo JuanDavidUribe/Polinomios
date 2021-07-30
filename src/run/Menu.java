@@ -153,7 +153,7 @@ public class Menu {
 								calcularF2.add();
 								break;
 							case 3:
-								resF3 = this.calcularF3.add(this.poli1, this.poli2);
+								resF3 = this.calcularF3.add();
 								resF3.mostrar();
 								break;
 							default:
@@ -174,7 +174,7 @@ public class Menu {
 								calcularF2.multiply();
 								break;
 							case 3:
-								resF3 = this.calcularF3.multiply(this.poli1, this.poli2);
+								resF3 = this.calcularF3.multiply();
 								resF3.mostrar();
 								break;
 							default:
@@ -290,7 +290,7 @@ public class Menu {
 					}
 					break;
 				case 3:
-					this.calcularF3 = new CalculadoraForma3();
+					this.calcularF3 = new CalculadoraForma3(poli1, poli2);
 					poli1.ingresarPolinomio(polinomio1);
 					poli2.ingresarPolinomio(polinomio2);
 					salir = true;
