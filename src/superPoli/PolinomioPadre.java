@@ -6,7 +6,7 @@ public abstract class PolinomioPadre {
 	protected String[] polinomioFinal;
 	protected char[] poli;
 	protected int nData = 0;
-	
+
 	public char[] getPoli() {
 		return poli;
 	}
@@ -46,7 +46,7 @@ public abstract class PolinomioPadre {
 	public void setPolinomioDefinitivo(int[] polinomioDefinitivo) {
 		this.polinomioDefinitivo = polinomioDefinitivo;
 	}
-	
+
 	public void build() {
 		String s = "";
 		int j = 0;
@@ -118,59 +118,61 @@ public abstract class PolinomioPadre {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param position Es la posicion en donde se encuentra el dato a encontrar
-	 * @return El dato que se necesita 
+	 * @return El dato que se necesita
 	 */
 	public int getData(int position) {
 		return this.polynomial[position];
 	}
-	
+
 	public void order() {
 		int maxExpo = 0, auxExpo = 0, maxCoe = 0, auxCoe = 0, coeNoZero = 0, zero = 0;
 		boolean finish = true, firstZero = false; // Soluciona el error de cambio de posiciones
-
-		for (int i = 1; i <= this.nData; i += 2) {
-			maxExpo = i;
-			for (int j = i + 2; j <= this.nData; j += 2) {
-				if (this.polinomioDefinitivo[j] > this.polinomioDefinitivo[maxExpo]) {
-					maxExpo = j;
-					maxCoe = (j - 1);
-					finish = false;
-				}
-			}
-			if (!finish) {
-				auxExpo = this.polinomioDefinitivo[i];
-				auxCoe = this.polinomioDefinitivo[i - 1];
-				this.polinomioDefinitivo[i] = this.polinomioDefinitivo[maxExpo];
-				this.polinomioDefinitivo[i - 1] = this.polinomioDefinitivo[maxCoe];
-				this.polinomioDefinitivo[maxExpo] = auxExpo;
-				this.polinomioDefinitivo[maxCoe] = auxCoe;
-				auxCoe = 0;
-				auxExpo = 0;
-				finish = true;
-			}
-		}
-		for (int w = 1; w < this.polinomioDefinitivo.length; w += 2) {
-			if (!firstZero) {
-				if ((this.polinomioDefinitivo[w] == 0) && (this.polinomioDefinitivo[(w - 1)] == 0)) {
-					zero = (w - 1);
-					firstZero = true;
-				}
-			}
-			try {
-				if ((this.polinomioDefinitivo[w] == 0) && (this.polinomioDefinitivo[(w - 1)] != 0)) {
-					coeNoZero = (w - 1);
-					if (firstZero) {
-						this.polinomioDefinitivo[zero] = this.polinomioDefinitivo[coeNoZero];
+		if (this.nData > 3) {
+			for (int i = 1; i <= this.nData; i += 2) {
+				maxExpo = i;
+				for (int j = i + 2; j <= this.nData; j += 2) {
+					if (this.polinomioDefinitivo[j] > this.polinomioDefinitivo[maxExpo]) {
+						maxExpo = j;
+						maxCoe = (j - 1);
+						finish = false;
 					}
+				}
+				if (!finish) {
+					auxExpo = this.polinomioDefinitivo[i];
+					auxCoe = this.polinomioDefinitivo[i - 1];
+					this.polinomioDefinitivo[i] = this.polinomioDefinitivo[maxExpo];
+					this.polinomioDefinitivo[i - 1] = this.polinomioDefinitivo[maxCoe];
+					this.polinomioDefinitivo[maxExpo] = auxExpo;
+					this.polinomioDefinitivo[maxCoe] = auxCoe;
+					auxCoe = 0;
+					auxExpo = 0;
+					finish = true;
+				}
+			}
+			for (int w = 1; w < this.polinomioDefinitivo.length; w += 2) {
+				if (!firstZero) {
+					if ((this.polinomioDefinitivo[w] == 0) && (this.polinomioDefinitivo[(w - 1)] == 0)) {
+						zero = (w - 1);
+						firstZero = true;
+					}
+				}
+				try {
+					if ((this.polinomioDefinitivo[w] == 0) && (this.polinomioDefinitivo[(w - 1)] != 0)) {
+						coeNoZero = (w - 1);
+						if (firstZero) {
+							this.polinomioDefinitivo[zero] = this.polinomioDefinitivo[coeNoZero];
+						}
+						break;
+					}
+				} catch (Exception e) {
 					break;
 				}
-			} catch (Exception e) {
-				break;
 			}
 		}
+
 		for (int k = 0; k < this.nData; k++) { // Modificamos el vector de String para mostrar con mas facilidad
 			this.polinomioFinal[k] = String.valueOf(this.polinomioDefinitivo[k]);
 		}
@@ -182,11 +184,11 @@ public abstract class PolinomioPadre {
 		// int[] vecIgual = this.polinomioDefinitivo.clone();
 		int n = 0;
 		boolean cambiar = false;
+		if (this.nData > 3) {
+			for (int i = 1; i <= this.nData; i += 2) {
+				posEliminar = new int[nData];
+				for (int j = (i + 2); j <= this.nData; j += 2) {
 
-		for (int i = 1; i <= this.nData; i += 2) {
-			posEliminar = new int[nData];
-			for (int j = (i + 2); j <= this.nData; j += 2) {
-				try {
 					if (this.polinomioDefinitivo[j] == this.polinomioDefinitivo[i]) {
 						if (n == 0) {
 							s += this.polinomioDefinitivo[i - 1];
@@ -194,23 +196,21 @@ public abstract class PolinomioPadre {
 						s += this.polinomioDefinitivo[j - 1];
 						posEliminar[n] = j;
 						n++;
-						cambiar = true; 
+						cambiar = true;
 					}
-				} catch (Exception e) {
-					continue;
-				}
 
-			}
-			if (cambiar) {
-				this.polinomioDefinitivo[i - 1] = s;
-				for (int k = 0; k < n; k++) {
-					this.polinomioDefinitivo[posEliminar[k]] = 0;
-					this.polinomioDefinitivo[(posEliminar[k]) - 1] = 0;
 				}
-				s = 0;
-				n = 0;
-				posEliminar = null;
-				cambiar = false;
+				if (cambiar) {
+					this.polinomioDefinitivo[i - 1] = s;
+					for (int k = 0; k < n; k++) {
+						this.polinomioDefinitivo[posEliminar[k]] = 0;
+						this.polinomioDefinitivo[(posEliminar[k]) - 1] = 0;
+					}
+					s = 0;
+					n = 0;
+					posEliminar = null;
+					cambiar = false;
+				}
 			}
 		}
 		order();
@@ -233,9 +233,9 @@ public abstract class PolinomioPadre {
 			return false;
 		}
 	}
-	
+
 	public abstract void show();
-	
+
 	/**
 	 * @param n Es la posicion del coeficiente que le mandaremos
 	 * @return El valor del exponente

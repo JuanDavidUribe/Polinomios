@@ -12,6 +12,7 @@ import polynomials.PolinomioForma1;
 public class CalculadoraForma1 {
 	private PolinomioForma1 polinomio1;
 	private PolinomioForma1 polinomio2;
+	private int [] vec;
 
 	public CalculadoraForma1(char[] polinomioC1, char[] polinomioC2) {
 		this.polinomio1 = new PolinomioForma1(polinomioC1);
@@ -100,70 +101,15 @@ public class CalculadoraForma1 {
 	}
 
 	public void divide() {
-//		List<Integer> list = new ArrayList<Integer>();
-//		int[] poli1 = simplify(polinomio1).clone(), poli2 = simplify(polinomio2).clone();
-//		int[] dividendo, divisor, cociente, res;
-//		int op = 0, k = 0;
-//		boolean terminado = false, encontrado = false;
-//
-//		if (poli1.length > poli2.length) {
-//			dividendo = poli1.clone();
-//			divisor = poli2.clone();
-//		} else {
-//			dividendo = poli2.clone();
-//			divisor = poli1.clone();
-//		}
-//		cociente = new int[dividendo.length];
-//		res = new int[dividendo.length];
-//		for(short i = 0; i < dividendo.length; i += 2) {
-//			for(short j = 0; j < divisor.length; j++) {
-//				if(dividendo[i] < divisor[j]) {
-//					cociente[k] = 1;
-//					k++;
-//					cociente[k] = getexpoente(dividendo[i + 1], divisor[j + 1]);
-//					res[op] = (dividendo[i]);
-//				}
-//			}
-//		}
-		//****************************************************************************
-//		int k, expt, expA;
-//		float coet, coeA;
-//		PolinomioForma1 R;
-//		List<String> box  = new ArrayList<String>();
-//		String[] myPoli;
-//		while(true){
-//			expt = this.polinomio1.getPolynomial()[0] - this.polinomio2.getPolynomial()[0];
-//			coet = this.polinomio1.getPolynomial()[1] - this.polinomio2.getPolynomial()[1];
-//			box.add(String.valueOf(coet));
-//			box.add(String.valueOf(expt));
-//			for(k = 1; k<(this.polinomio2.getPolynomial()[0] + 2); k++){
-//				expA= (expt + this.polinomio2.getPolynomial()[0] + 1 - k);
-//				coeA = coet * this.polinomio2.getPolynomial()[k];
-//				box.add(String.valueOf(coeA));
-//				box.add(String.valueOf(expA));
-//			}
-//			try {
-//				Thread.currentThread().stop();
-//				if(JOptionPane.showInputDialog("ingresa").equals("S"));
-//				Thread.currentThread().resume();;
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			}
-//		}
         int coet, coea;
         int expt, posa, post, expa;
         List<String> vec = new ArrayList<String>();
         if (this.polinomio1.getData(0) >= this.polinomio2.getData(0)) {
-
             int a[] = new int[this.polinomio1.getData(0) + 2];
-
             int g[] = new int[this.polinomio1.getData(0) - this.polinomio2.getData(0) + 2];
             g[0] = this.polinomio1.getData(0) - this.polinomio2.getData(0);
-
-            for (int i = 0; i < a.length; i++) {
-                a[i] = this.polinomio1.getData(i);
-            }
-            
+            a = this.polinomio1.getPolynomial().clone();
+            while(a[0] >= this.polinomio2.getData(0)) {
                 expt = (int) (a[0] - this.polinomio2.getData(0));
                 coet = a[1] / this.polinomio2.getData(1);
                 post = (int) (g[0] + 1 - expt);
@@ -174,44 +120,40 @@ public class CalculadoraForma1 {
                     posa = (int) (a[0] + 1 - expa);
                     a[posa] = a[posa] - coea;
                 }
-            
+                a = ajustar(a);
+            }
             vec.add(String.valueOf(this.polinomio1.getData(0) - this.polinomio2.getData(0)));
             for (int i = 1; i < g.length; i++) {
                 vec.add(String.valueOf(g[i]));
             }
-            String [] myVec = new String[vec.size()]; 
+            int [] myVec = new int[vec.size()]; 
             for(int j = 0; j < vec.size(); j++) {
-            	myVec[j] = vec.get(j);
+            	myVec[j] = Integer.parseInt(vec.get(j));
             }
             PolinomioForma1 c = new PolinomioForma1(myVec);
-            if(c.validate()) {
-            	c.show();
-            	System.out.println("OK");
-            } else {
-            	System.out.println("Error");
-            }
+            c.show();
             vec = null;
     		c = null;
+        } else {
+        	JOptionPane.showMessageDialog(null, "No se ah podido realizar la division. Intenta cambiar de lugar los valores");
         }
 	}
 
-	/**
-	 * @param polinomio Es el polinomio que simplificaremos
-	 * @return Se devolverá el polinomio el mismo polinomio per sin datos basura
-	 */
-	private int[] simplify(PolinomioForma1 polinomio) {
-		List<Integer> poli = new ArrayList<Integer>();
-		int[] myPoli;
-		for (short i = 1; i < polinomio.getPolynomial().length; i++) {
-			if (polinomio.getPolynomial()[i] != 0) {
-				poli.add(polinomio.getPolynomial()[i]);
-				poli.add(polinomio.getExponent(i));
-			}
-		}
-		myPoli = new int[poli.size()];
-		myPoli = poli.stream().mapToInt(i -> i).toArray(); // Para poder devolver el dato primitivo int y no integer
-		return myPoli;
-	}
+	private int[] ajustar(int vec[]) {
+        int cont = 0, i;
+        if (vec[1] == 0) {
+            i = 1;
+            while (i < vec[0] + 2 && vec[i] == 0) {
+                cont = cont + 1;
+                i = i + 1;
+            }
+            for (int j = i; j < vec[0] + 2; j++) {
+                vec[j - cont] = vec[j];
+            }
+            vec[0] = vec[0] - cont;
+        }
+        return vec;
+    }
 
 	private int getexpoente(int eDividendo, int eDivisor) {
 		short n = 1;
