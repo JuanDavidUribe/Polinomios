@@ -67,8 +67,6 @@ public class Menu {
 				this.calcularF1 = null;
 				this.calcularF2 = null;
 				this.calcularF3 = null;
-				this.poli1 = null; 
-				this.poli2 = null;
 				desForm = Short.parseShort(JOptionPane.showInputDialog("\tMenu\n\n" + "[1] FORMA 1.\n"
 						+ "[2] FORMA 2.\n" + "[3] FORMA 3.\n" + "[4] Salir.\n\n" + "Ingrese una opcion: "));
 			} catch (Exception e) {
@@ -86,7 +84,7 @@ public class Menu {
 								+ "[6] Dividir.\n" + "[7] Salir.\n\n" + "Ingrese una opcion: "));
 					} catch (Exception e) {
 						des = 0;
-						JOptionPane.showMessageDialog(null, "Ingrese una opcion valida");
+						JOptionPane.showMessageDialog(null, "Ingrese una de las opciones presentadas");
 					}
 
 					switch (des) {
@@ -259,15 +257,15 @@ public class Menu {
 			polinomio1 = JOptionPane.showInputDialog("Ingrese el polinomio 1").toUpperCase().trim();
 			polinomio2 = JOptionPane.showInputDialog("Ingrese el polinomio 2").toUpperCase().trim();
 			if (polinomio1.equals("")) {
-				JOptionPane.showMessageDialog(null, "Por favor Ingrese un polinomio en el campo 1");
+				JOptionPane.showMessageDialog(null, "Por favor ingrese un polinomio en el campo 1");
 			} else if ((!Character.isDigit(polinomio1.charAt(0))) && (polinomio1.charAt(0) != 'X')
 					&& (polinomio1.charAt(0) != '-')) { // Si no es digito, no empieza con letra diferente a x ni -
-				JOptionPane.showMessageDialog(null, "Por favor Ingrese un polinomio valido en el campo 1");
+				JOptionPane.showMessageDialog(null, "Por favor ingrese un polinomio valido en el campo 1");
 			} else if (polinomio2.equals("")) {
-				JOptionPane.showMessageDialog(null, "Por favor Ingrese un polinomio en el campo 2");
+				JOptionPane.showMessageDialog(null, "Por favor ingrese un polinomio en el campo 2");
 			} else if ((!Character.isDigit(polinomio2.charAt(0))) && (polinomio2.charAt(0) != 'X')
 					&& (polinomio2.charAt(0) != '-')) { // Si no es digito, no empieza con letra diferente a x ni -
-				JOptionPane.showMessageDialog(null, "Por favor Ingrese un polinomio valido en el campo 2");
+				JOptionPane.showMessageDialog(null, "Por favor ingrese un polinomio valido en el campo 2");
 			} else {
 				char[] polinomioC1 = polinomio1.toCharArray();
 				char[] polinomioC2 = polinomio2.toCharArray();

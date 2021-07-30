@@ -26,6 +26,11 @@ public class PolinomioForma1 extends PolinomioPadre {
 		this.polinomioFinal = vec.clone();
 		this.polinomioDefinitivo = new int[this.polinomioFinal.length];
 	}
+	
+	public PolinomioForma1(int[] vec) {
+		this.polynomial = vec.clone();
+		this.grade = polynomial[0];
+	}
 
 	public int getGrade() {
 		return grade;
