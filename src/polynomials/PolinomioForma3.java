@@ -18,23 +18,36 @@ public class PolinomioForma3 {
 		cadena = cadena.toUpperCase();
 		char[] vec = cadena.toCharArray();
 		do {
-			while ((vec[i] != '+' && vec[i] != '-') && (i != vec.length-1)) {
+			while ((vec[i] != '+' && vec[i] != '-') && (i <= vec.length-1)) {
 				switch (vec[i]) {
 				case 'X':
+					try {
+						if (vec[i+1] == '+' && vec[i+1] == '-') {
+							exp = 1;
+						}
+					} catch (Exception e) {
+						exp = 1;
+					}
 					try {
 						if (vec[i - 1] == '+' || vec[i - 1] == '-') {
 							if (vec [i-1] == '-') {
 								coef = -1;
 							}
 							coef = 1;
-						} else {
-							coef = Character.getNumericValue(vec[i - 1]);
-							if (vec [i-2] == '-') {
-								coef = coef * -1;
-							}
 						}
-						
+					} catch (Exception e) {
+						coef = 1;
+					}
+					try {
+						if (vec[i - 1] != '+' || vec[i - 1] != '-') {
+							coef = Character.getNumericValue(vec[i - 1]);
+						}
 					} catch (Exception e) {}
+					try {
+						if (vec [i-2] == '-') {
+							coef = coef * -1;
+						}
+					} catch (Exception e) {} 
 					try {
 						if (Character.isDigit(vec[i - 2])) {
 							String n3 = String.valueOf(vec[i - 2]) + String.valueOf(vec[i - 1]);
@@ -45,7 +58,7 @@ public class PolinomioForma3 {
 								}
 							} catch (Exception e) {}
 						}
-					} catch (Exception e) {}
+					} catch (Exception e) {}						
 					break;
 				case '^':
 					exp = Character.getNumericValue(vec [i+1]);
@@ -53,7 +66,12 @@ public class PolinomioForma3 {
 				default:
 					break;
 				}
-				i++;
+				if (i == vec.length-1) {
+					break;
+				}
+				else {
+					i++;					
+				}
 			}
 			if (!(vec[i] != '+' && vec[i] != '-')) {
 				i++;
